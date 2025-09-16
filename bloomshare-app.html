@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloomShare - UK Cut Flower Collective</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5f2d;
+            --secondary: #97bc62;
+            --accent: #ff6b6b;
+            --light: #f7f9f7;
+            --dark: #1a1a1a;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --warning: #ffa500;
+            --success: #4caf50;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 390px;
+            height: 844px;
+            background: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .status-bar {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .app-header .tagline {
+            font-size: 13px;
+            opacity: 0.95;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .navigation {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .navigation::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            flex: 0 0 auto;
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(44, 95, 45, 0.05);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--light);
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .eco-score-display {
+            background: linear-gradient(135deg, #56ab2f, #a8e063);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .eco-score-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .eco-score-label {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .profile-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .profile-location {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .specialty-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            border: 2px solid transparent;
+        }
+
+        .tag.selected {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--primary);
+        }
+
+        .flower-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .flower-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .flower-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flower-emoji {
+            font-size: 24px;
+        }
+
+        .flower-detail {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .flower-detail.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 800px; }
+        }
+
+        .calendar-view {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .calendar-day.has-event {
+            background: var(--primary);
+            color: white;
+            font-weight: bold;
+        }
+
+        .journal-entry {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .journal-date {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .journal-content {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .add-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent), #ff8787);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .add-button:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .eco-badge {
+            background: linear-gradient(135deg, #56ab2f, #a8e063);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eco-nudge {
+            background: linear-gradient(135deg, var(--warning), #ffcc00);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .share-button {
+            background: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s;
+        }
+
+        .share-button:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            animation: modalSlide 0.3s;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .task-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-info h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .task-assignee {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .task-status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .task-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .task-status.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .photo-upload-area {
+            border: 2px dashed var(--secondary);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .photo-upload-area:hover {
+            background: rgba(151, 188, 98, 0.1);
+            border-color: var(--primary);
+        }
+
+        .photo-upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .ai-result {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .ai-result h3 {
+            margin-bottom: 10px;
+        }
+
+        .pollinator-map {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .map-cell {
+            aspect-ratio: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 20px;
+        }
+
+        .map-cell.pollinator {
+            background: rgba(151, 188, 98, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .map-cell:hover {
+            background: rgba(151, 188, 98, 0.3);
+        }
+
+        .resource-share {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .resource-share h4 {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .resource-share p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Define all functions immediately so they're available for onclick handlers
+        function showScreen(screenId, element) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            // Add active class to clicked element
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+        
+        function toggleFlowerDetail(flowerId) {
+            const detail = document.getElementById(flowerId + '-detail');
+            if (detail) {
+                detail.classList.toggle('show');
+            }
+        }
+        
+        function shareToWhatsApp() {
+            const message = "Check out my garden progress on BloomShare! 🌷 Just harvested my first zinnias today. Growing flowers together, chemical-free! Join us: bloomshare.uk";
+            const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        
+        function showAddModal() {
+            const modal = document.getElementById('addModal');
+            if (modal) {
+                modal.classList.add('show');
+            }
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('addModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+        
+        function showPhotoUpload() {
+            const modal = document.getElementById('photoModal');
+            if (modal) {
+                modal.classList.add('show');
+                // Simulate AI detection after 2 seconds
+                setTimeout(() => {
+                    const aiResult = document.getElementById('aiResult');
+                    if (aiResult) {
+                        aiResult.style.display = 'block';
+                    }
+                }, 2000);
+            }
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+            const aiResult = document.getElementById('aiResult');
+            if (aiResult) {
+                aiResult.style.display = 'none';
+            }
+        }
+        
+        function saveEntry() {
+            const textElement = document.getElementById('journalText');
+            const treatmentElement = document.getElementById('treatmentInput');
+            
+            if (textElement && treatmentElement) {
+                const text = textElement.value.toLowerCase();
+                const treatment = treatmentElement.value.toLowerCase();
+                
+                // Check for chemical use
+                const chemicals = ['pesticide', 'herbicide', 'fungicide', 'roundup', 'glyphosate', 'chemical', 'spray'];
+                const hasChemicals = chemicals.some(chem => text.includes(chem) || treatment.includes(chem));
+                
+                if (hasChemicals) {
+                    alert('🌿 Gentle reminder: Have you tried natural alternatives? Neem oil, soap spray, or companion planting work brilliantly! Your eco score would increase by using organic methods.');
+                } else if (treatment.includes('compost') || treatment.includes('rainwater')) {
+                    alert('🏆 Brilliant! You earned a Soil Hero badge for using ' + treatment + '! Your eco score increased by 5 points.');
+                } else {
+                    alert('✅ Entry saved! Keep growing naturally!');
+                }
+            }
+            
+            closeModal();
+        }
+        
+        function addJournalEntry() {
+            // Find the journal nav item (4th item)
+            const journalNav = document.querySelector('.nav-item:nth-child(4)');
+            showScreen('journal', journalNav);
+            showAddModal();
+        }
+        
+        // Initialize interactive elements after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tag selection
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const selectedCount = document.querySelectorAll('.tag.selected').length;
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                    } else if (selectedCount < 3) {
+                        this.classList.add('selected');
+                    } else {
+                        alert('You can only select up to 3 specialties');
+                    }
+                });
+            });
+            
+            // Calendar day clicks
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                if (!isNaN(day.textContent)) {
+                    day.addEventListener('click', function() {
+                        if (this.classList.contains('has-event')) {
+                            alert(`Events for ${day.textContent} June:\n\n• Check calendar below for details\n• Tap to mark tasks complete`);
+                        } else {
+                            alert(`No events on ${day.textContent} June\n\nTap "Add Event" to schedule something!`);
+                        }
+                    });
+                }
+            });
+            
+            // Pollinator map interaction
+            document.querySelectorAll('.map-cell').forEach(cell => {
+                cell.addEventListener('click', function() {
+                    if (this.textContent === '-') {
+                        this.textContent = '🌼';
+                        this.classList.add('pollinator');
+                        alert('🐝 Great choice! This spot is now marked for pollinator-friendly plants.');
+                    }
+                });
+            });
+            
+            // Task completion
+            document.querySelectorAll('.task-status.pending').forEach(status => {
+                status.addEventListener('click', function() {
+                    this.textContent = '✅ Done';
+                    this.classList.remove('pending');
+                    this.classList.add('complete');
+                    alert('Task marked as complete! The community thanks you! 🌟');
+                });
+            });
+            
+            // Photo upload simulation
+            const photoUploadArea = document.querySelector('#photoModal .photo-upload-area');
+            if (photoUploadArea) {
+                photoUploadArea.addEventListener('click', function() {
+                    this.innerHTML = '<div class="photo-upload-icon">🌸</div><p>Analysing flower...</p>';
+                });
+            }
+        });
+    </script>
+    
+    <div class="phone-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🌿 BloomShare</span>
+            <span>100%</span>
+        </div>
+        
+        <div class="app-header">
+            <h1>🌷 BloomShare</h1>
+            <div class="tagline">In bloom, they stand as earthly art,<br>Divine brushstrokes on Nature's page:<br>Each petal, a heartbeat apart,<br>United in the vast cosmic sage.</div>
+        </div>
+        
+        <div class="navigation">
+            <div class="nav-item active" onclick="showScreen('home', this)">Home</div>
+            <div class="nav-item" onclick="showScreen('flowers', this)">Flower Guide</div>
+            <div class="nav-item" onclick="showScreen('calendar', this)">Calendar</div>
+            <div class="nav-item" onclick="showScreen('journal', this)">Journal</div>
+            <div class="nav-item" onclick="showScreen('tasks', this)">Tasks</div>
+            <div class="nav-item" onclick="showScreen('profile', this)">Profile</div>
+        </div>
+        
+        <div class="content-area">
+            <!-- Home Screen -->
+            <div id="home" class="screen active">
+                <div class="eco-score-display">
+                    <div class="eco-score-number">92/100</div>
+                    <div class="eco-score-label">Your Eco Score - Outstanding! 🌱</div>
+                </div>
+
+                <div class="welcome-card">
+                    <h2>Welcome back, Sarah! 🌻</h2>
+                    <p>Your garden is thriving naturally - zero chemicals, 100% permaculture!</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">127</div>
+                            <div class="stat-label">Flowers Grown</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">£458</div>
+                            <div class="stat-label">Saved This Season</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">340L</div>
+                            <div class="stat-label">Rainwater Used</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label">Pollinator Species</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pollinator-map">
+                    <h3>🐝 Your Pollinator Zone Map</h3>
+                    <div class="map-grid">
+                        <div class="map-cell pollinator">🌻</div>
+                        <div class="map-cell">-</div>
+                        <div class="map-cell pollinator">🌺</div>
+                        <div class="map-cell">-</div>
+                        <div class="map-cell">-</div>
+                        <div class="map-cell pollinator">🌼</div>
+                        <div class="map-cell">-</div>
+                        <div class="map-cell pollinator">🌸</div>
+                        <div class="map-cell pollinator">🌷</div>
+                        <div class="map-cell">-</div>
+                        <div class="map-cell pollinator">🌻</div>
+                        <div class="map-cell">-</div>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 14px; color: #666;">Tap empty spaces to plan bee-friendly flowers</p>
+                </div>
+
+                <div class="resource-share">
+                    <h4>📦 Resource Alert!</h4>
+                    <p>Sarah has 50 bamboo stakes available - message her if you need some!</p>
+                </div>
+            </div>
+            
+            <!-- Flowers Screen -->
+            <div id="flowers" class="screen">
+                <div class="photo-upload-area" onclick="showPhotoUpload()">
+                    <div class="photo-upload-icon">📸</div>
+                    <h3>Add New Flower</h3>
+                    <p>Take a photo and our AI will identify it!</p>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('cornflower')">
+                    <h3><span class="flower-emoji">🌾</span> Cornflowers (Centaurea cyanus)</h3>
+                    <p>Classic UK cutting flower - hardy & pollinator-friendly</p>
+                    <div id="cornflower-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> Direct sow outdoors: April–June</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun. Space 15–20cm apart.</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when buds are just starting to open</p>
+                        <p><strong>💐 Vase Life:</strong> Lasts 7–10 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Let some self-seed for next year's free flowers!</p>
+                        <p><strong>🐝 Companion Planting:</strong> Plant near beans - they fix nitrogen naturally</p>
+                        <div class="eco-badge">
+                            ♻️ Native wildflower - Saved £8.50 vs shop-bought
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+                
+                <div class="flower-card" onclick="toggleFlowerDetail('sweetpea')">
+                    <h3><span class="flower-emoji">🌸</span> Sweet Peas (Lathyrus odoratus)</h3>
+                    <p>Fragrant climbers perfect for British gardens</p>
+                    <div id="sweetpea-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> October (autumn) or March (spring)</p>
+                        <p><strong>💧 Where to Plant:</strong> Rich soil, full sun to partial shade</p>
+                        <p><strong>✂️ When to Harvest:</strong> Pick regularly for more blooms</p>
+                        <p><strong>💐 Vase Life:</strong> 5–7 days with daily water changes</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Nitrogen fixer - improves soil naturally!</p>
+                        <p><strong>💧 Water-Wise:</strong> Deep water weekly, mulch to retain moisture</p>
+                        <div class="eco-badge">
+                            ♻️ Soil improver - Adds nitrogen naturally
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('dahlia')">
+                    <h3><span class="flower-emoji">🌺</span> Dahlias</h3>
+                    <p>Show-stopping blooms from summer to frost</p>
+                    <div id="dahlia-detail" class="flower-detail">
+                        <p><strong>🌱 When to Plant:</strong> Plant tubers April-May after frost</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, rich well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when fully open in morning</p>
+                        <p><strong>💐 Vase Life:</strong> 4–6 days, remove lower leaves</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Lift tubers in autumn, store for next year</p>
+                        <p><strong>🐞 Pest Control:</strong> Attract ladybirds with nearby fennel</p>
+                        <div class="eco-badge">
+                            ♻️ Perennial investment - Tubers multiply yearly
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('cosmos')">
+                    <h3><span class="flower-emoji">🌼</span> Cosmos</h3>
+                    <p>Easy-care flowers that bloom all summer</p>
+                    <div id="cosmos-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> April-May indoors, or direct sow May</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, poor to average soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when petals just open</p>
+                        <p><strong>💐 Vase Life:</strong> 5–7 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Thrives in poor soil - no feeding needed!</p>
+                        <p><strong>🌱 Seed Saving:</strong> Let dry on plant, store in paper bags</p>
+                        <div class="eco-badge">
+                            ♻️ Self-sowing champion - Zero maintenance
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('sunflower')">
+                    <h3><span class="flower-emoji">🌻</span> Sunflowers</h3>
+                    <p>Giants that feed birds and brighten borders</p>
+                    <div id="sunflower-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> April-May direct in ground</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, any well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when petals start to open</p>
+                        <p><strong>💐 Vase Life:</strong> 6–12 days in clean water</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Leave heads for birds in winter</p>
+                        <p><strong>🐝 Wildlife Value:</strong> Feeds bees, then finches love the seeds</p>
+                        <div class="eco-badge">
+                            ♻️ Wildlife superstar - Feeds pollinators & birds
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('foxglove')">
+                    <h3><span class="flower-emoji">🔔</span> Foxgloves (Digitalis)</h3>
+                    <p>Woodland beauties loved by bumblebees</p>
+                    <div id="foxglove-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> May-July for flowers next year</p>
+                        <p><strong>💧 Where to Plant:</strong> Partial shade, moist soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when 1/3 of bells open</p>
+                        <p><strong>💐 Vase Life:</strong> 5–10 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Self-seeds readily in shady spots</p>
+                        <p><strong>⚠️ Safety:</strong> Toxic - wear gloves when handling</p>
+                        <div class="eco-badge">
+                            ♻️ Bumblebee magnet - Essential for long-tongued bees
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar Screen -->
+            <div id="calendar" class="screen">
+                <div class="calendar-view">
+                    <div class="calendar-header">
+                        <h3>June 2025</h3>
+                        <button class="btn" style="width: auto; padding: 10px 20px;">Add Event</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day">S</div>
+                        <div class="calendar-day">M</div>
+                        <div class="calendar-day">T</div>
+                        <div class="calendar-day">W</div>
+                        <div class="calendar-day">T</div>
+                        <div class="calendar-day">F</div>
+                        <div class="calendar-day">S</div>
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day has-event">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day">7</div>
+                        <div class="calendar-day">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day has-event">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day">14</div>
+                        <div class="calendar-day has-event">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day has-event">19</div>
+                        <div class="calendar-day">20</div>
+                        <div class="calendar-day">21</div>
+                        <div class="calendar-day">22</div>
+                        <div class="calendar-day">23</div>
+                        <div class="calendar-day">24</div>
+                        <div class="calendar-day has-event">25</div>
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day">30</div>
