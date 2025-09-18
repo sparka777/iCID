@@ -270,6 +270,12 @@
             color: var(--primary);
         }
 
+        .btn-small {
+            width: auto;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
         .flower-card {
             background: white;
             border-radius: 15px;
@@ -362,6 +368,7 @@
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: var(--shadow);
+            position: relative;
         }
 
         .journal-date {
@@ -373,6 +380,20 @@
         .journal-content {
             color: var(--dark);
             line-height: 1.6;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
         }
 
         .add-button {
@@ -535,6 +556,7 @@
             border-radius: 15px;
             font-size: 12px;
             font-weight: 600;
+            cursor: pointer;
         }
 
         .task-status.pending {
@@ -632,180 +654,30 @@
             color: #6c757d;
             font-size: 14px;
         }
+
+        .profile-setup {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .event-list {
+            margin-top: 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-    <script>
-        // Define all functions immediately so they're available for onclick handlers
-        function showScreen(screenId, element) {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            
-            // Show selected screen
-            const targetScreen = document.getElementById(screenId);
-            if (targetScreen) {
-                targetScreen.classList.add('active');
-            }
-            
-            // Update navigation
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            // Add active class to clicked element
-            if (element) {
-                element.classList.add('active');
-            }
-        }
-        
-        function toggleFlowerDetail(flowerId) {
-            const detail = document.getElementById(flowerId + '-detail');
-            if (detail) {
-                detail.classList.toggle('show');
-            }
-        }
-        
-        function shareToWhatsApp() {
-            const message = "Check out my garden progress on BloomShare! 🌷 Just harvested my first zinnias today. Growing flowers together, chemical-free! Join us: bloomshare.uk";
-            const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-        
-        function showAddModal() {
-            const modal = document.getElementById('addModal');
-            if (modal) {
-                modal.classList.add('show');
-            }
-        }
-        
-        function closeModal() {
-            const modal = document.getElementById('addModal');
-            if (modal) {
-                modal.classList.remove('show');
-            }
-        }
-        
-        function showPhotoUpload() {
-            const modal = document.getElementById('photoModal');
-            if (modal) {
-                modal.classList.add('show');
-                // Simulate AI detection after 2 seconds
-                setTimeout(() => {
-                    const aiResult = document.getElementById('aiResult');
-                    if (aiResult) {
-                        aiResult.style.display = 'block';
-                    }
-                }, 2000);
-            }
-        }
-        
-        function closePhotoModal() {
-            const modal = document.getElementById('photoModal');
-            if (modal) {
-                modal.classList.remove('show');
-            }
-            const aiResult = document.getElementById('aiResult');
-            if (aiResult) {
-                aiResult.style.display = 'none';
-            }
-        }
-        
-        function saveEntry() {
-            const textElement = document.getElementById('journalText');
-            const treatmentElement = document.getElementById('treatmentInput');
-            
-            if (textElement && treatmentElement) {
-                const text = textElement.value.toLowerCase();
-                const treatment = treatmentElement.value.toLowerCase();
-                
-                // Check for chemical use
-                const chemicals = ['pesticide', 'herbicide', 'fungicide', 'roundup', 'glyphosate', 'chemical', 'spray'];
-                const hasChemicals = chemicals.some(chem => text.includes(chem) || treatment.includes(chem));
-                
-                if (hasChemicals) {
-                    alert('🌿 Gentle reminder: Have you tried natural alternatives? Neem oil, soap spray, or companion planting work brilliantly! Your eco score would increase by using organic methods.');
-                } else if (treatment.includes('compost') || treatment.includes('rainwater')) {
-                    alert('🏆 Brilliant! You earned a Soil Hero badge for using ' + treatment + '! Your eco score increased by 5 points.');
-                } else {
-                    alert('✅ Entry saved! Keep growing naturally!');
-                }
-            }
-            
-            closeModal();
-        }
-        
-        function addJournalEntry() {
-            // Find the journal nav item (4th item)
-            const journalNav = document.querySelector('.nav-item:nth-child(4)');
-            showScreen('journal', journalNav);
-            showAddModal();
-        }
-        
-        // Initialize interactive elements after DOM loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tag selection
-            document.querySelectorAll('.tag').forEach(tag => {
-                tag.addEventListener('click', function() {
-                    const selectedCount = document.querySelectorAll('.tag.selected').length;
-                    if (this.classList.contains('selected')) {
-                        this.classList.remove('selected');
-                    } else if (selectedCount < 3) {
-                        this.classList.add('selected');
-                    } else {
-                        alert('You can only select up to 3 specialties');
-                    }
-                });
-            });
-            
-            // Calendar day clicks
-            document.querySelectorAll('.calendar-day').forEach(day => {
-                if (!isNaN(day.textContent)) {
-                    day.addEventListener('click', function() {
-                        if (this.classList.contains('has-event')) {
-                            alert(`Events for ${day.textContent} June:\n\n• Check calendar below for details\n• Tap to mark tasks complete`);
-                        } else {
-                            alert(`No events on ${day.textContent} June\n\nTap "Add Event" to schedule something!`);
-                        }
-                    });
-                }
-            });
-            
-            // Pollinator map interaction
-            document.querySelectorAll('.map-cell').forEach(cell => {
-                cell.addEventListener('click', function() {
-                    if (this.textContent === '-') {
-                        this.textContent = '🌼';
-                        this.classList.add('pollinator');
-                        alert('🐝 Great choice! This spot is now marked for pollinator-friendly plants.');
-                    }
-                });
-            });
-            
-            // Task completion
-            document.querySelectorAll('.task-status.pending').forEach(status => {
-                status.addEventListener('click', function() {
-                    this.textContent = '✅ Done';
-                    this.classList.remove('pending');
-                    this.classList.add('complete');
-                    alert('Task marked as complete! The community thanks you! 🌟');
-                });
-            });
-            
-            // Photo upload simulation
-            const photoUploadArea = document.querySelector('#photoModal .photo-upload-area');
-            if (photoUploadArea) {
-                photoUploadArea.addEventListener('click', function() {
-                    this.innerHTML = '<div class="photo-upload-icon">🌸</div><p>Analysing flower...</p>';
-                });
-            }
-        });
-    </script>
-    
     <div class="phone-container">
         <div class="status-bar">
-            <span>9:41</span>
+            <span id="time">9:41</span>
             <span>🌿 BloomShare</span>
             <span>100%</span>
         </div>
@@ -828,29 +700,29 @@
             <!-- Home Screen -->
             <div id="home" class="screen active">
                 <div class="eco-score-display">
-                    <div class="eco-score-number">92/100</div>
+                    <div class="eco-score-number" id="ecoScore">92/100</div>
                     <div class="eco-score-label">Your Eco Score - Outstanding! 🌱</div>
                 </div>
 
                 <div class="welcome-card">
-                    <h2>Welcome back, Sarah! 🌻</h2>
+                    <h2>Welcome back, <span id="userName">Sarah</span>! 🌻</h2>
                     <p>Your garden is thriving naturally - zero chemicals, 100% permaculture!</p>
                     
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-number">127</div>
+                            <div class="stat-number" id="flowersGrown">127</div>
                             <div class="stat-label">Flowers Grown</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">£458</div>
+                            <div class="stat-number">£<span id="moneySaved">458</span></div>
                             <div class="stat-label">Saved This Season</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">340L</div>
+                            <div class="stat-number"><span id="waterSaved">340</span>L</div>
                             <div class="stat-label">Rainwater Used</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">23</div>
+                            <div class="stat-number" id="pollinators">23</div>
                             <div class="stat-label">Pollinator Species</div>
                         </div>
                     </div>
@@ -858,7 +730,7 @@
 
                 <div class="pollinator-map">
                     <h3>🐝 Your Pollinator Zone Map</h3>
-                    <div class="map-grid">
+                    <div class="map-grid" id="pollinatorMap">
                         <div class="map-cell pollinator">🌻</div>
                         <div class="map-cell">-</div>
                         <div class="map-cell pollinator">🌺</div>
@@ -875,9 +747,13 @@
                     <p style="margin-top: 10px; font-size: 14px; color: #666;">Tap empty spaces to plan bee-friendly flowers</p>
                 </div>
 
-                <div class="resource-share">
-                    <h4>📦 Resource Alert!</h4>
-                    <p>Sarah has 50 bamboo stakes available - message her if you need some!</p>
+                <div class="profile-setup">
+                    <h3>Quick Actions</h3>
+                    <button class="btn" onclick="showScreen('flowers', document.querySelector('.nav-item:nth-child(2)'))">Browse Flower Guides</button>
+                    <button class="btn" onclick="addJournalEntry()">Log Today's Harvest</button>
+                    <button class="share-button" onclick="shareToWhatsApp()">
+                        📱 Share to WhatsApp Group
+                    </button>
                 </div>
             </div>
             
@@ -888,6 +764,8 @@
                     <h3>Add New Flower</h3>
                     <p>Take a photo and our AI will identify it!</p>
                 </div>
+
+                <div id="customFlowers"></div>
 
                 <div class="flower-card" onclick="toggleFlowerDetail('cornflower')">
                     <h3><span class="flower-emoji">🌾</span> Cornflowers (Centaurea cyanus)</h3>
@@ -922,74 +800,6 @@
                         <button class="share-button">Share Growing Tips</button>
                     </div>
                 </div>
-
-                <div class="flower-card" onclick="toggleFlowerDetail('dahlia')">
-                    <h3><span class="flower-emoji">🌺</span> Dahlias</h3>
-                    <p>Show-stopping blooms from summer to frost</p>
-                    <div id="dahlia-detail" class="flower-detail">
-                        <p><strong>🌱 When to Plant:</strong> Plant tubers April-May after frost</p>
-                        <p><strong>💧 Where to Plant:</strong> Full sun, rich well-drained soil</p>
-                        <p><strong>✂️ When to Harvest:</strong> Cut when fully open in morning</p>
-                        <p><strong>💐 Vase Life:</strong> 4–6 days, remove lower leaves</p>
-                        <p><strong>🌿 Permaculture Tip:</strong> Lift tubers in autumn, store for next year</p>
-                        <p><strong>🐞 Pest Control:</strong> Attract ladybirds with nearby fennel</p>
-                        <div class="eco-badge">
-                            ♻️ Perennial investment - Tubers multiply yearly
-                        </div>
-                        <button class="share-button">Share Growing Tips</button>
-                    </div>
-                </div>
-
-                <div class="flower-card" onclick="toggleFlowerDetail('cosmos')">
-                    <h3><span class="flower-emoji">🌼</span> Cosmos</h3>
-                    <p>Easy-care flowers that bloom all summer</p>
-                    <div id="cosmos-detail" class="flower-detail">
-                        <p><strong>🌱 When to Sow:</strong> April-May indoors, or direct sow May</p>
-                        <p><strong>💧 Where to Plant:</strong> Full sun, poor to average soil</p>
-                        <p><strong>✂️ When to Harvest:</strong> Cut when petals just open</p>
-                        <p><strong>💐 Vase Life:</strong> 5–7 days</p>
-                        <p><strong>🌿 Permaculture Tip:</strong> Thrives in poor soil - no feeding needed!</p>
-                        <p><strong>🌱 Seed Saving:</strong> Let dry on plant, store in paper bags</p>
-                        <div class="eco-badge">
-                            ♻️ Self-sowing champion - Zero maintenance
-                        </div>
-                        <button class="share-button">Share Growing Tips</button>
-                    </div>
-                </div>
-
-                <div class="flower-card" onclick="toggleFlowerDetail('sunflower')">
-                    <h3><span class="flower-emoji">🌻</span> Sunflowers</h3>
-                    <p>Giants that feed birds and brighten borders</p>
-                    <div id="sunflower-detail" class="flower-detail">
-                        <p><strong>🌱 When to Sow:</strong> April-May direct in ground</p>
-                        <p><strong>💧 Where to Plant:</strong> Full sun, any well-drained soil</p>
-                        <p><strong>✂️ When to Harvest:</strong> Cut when petals start to open</p>
-                        <p><strong>💐 Vase Life:</strong> 6–12 days in clean water</p>
-                        <p><strong>🌿 Permaculture Tip:</strong> Leave heads for birds in winter</p>
-                        <p><strong>🐝 Wildlife Value:</strong> Feeds bees, then finches love the seeds</p>
-                        <div class="eco-badge">
-                            ♻️ Wildlife superstar - Feeds pollinators & birds
-                        </div>
-                        <button class="share-button">Share Growing Tips</button>
-                    </div>
-                </div>
-
-                <div class="flower-card" onclick="toggleFlowerDetail('foxglove')">
-                    <h3><span class="flower-emoji">🔔</span> Foxgloves (Digitalis)</h3>
-                    <p>Woodland beauties loved by bumblebees</p>
-                    <div id="foxglove-detail" class="flower-detail">
-                        <p><strong>🌱 When to Sow:</strong> May-July for flowers next year</p>
-                        <p><strong>💧 Where to Plant:</strong> Partial shade, moist soil</p>
-                        <p><strong>✂️ When to Harvest:</strong> Cut when 1/3 of bells open</p>
-                        <p><strong>💐 Vase Life:</strong> 5–10 days</p>
-                        <p><strong>🌿 Permaculture Tip:</strong> Self-seeds readily in shady spots</p>
-                        <p><strong>⚠️ Safety:</strong> Toxic - wear gloves when handling</p>
-                        <div class="eco-badge">
-                            ♻️ Bumblebee magnet - Essential for long-tongued bees
-                        </div>
-                        <button class="share-button">Share Growing Tips</button>
-                    </div>
-                </div>
             </div>
             
             <!-- Calendar Screen -->
@@ -997,43 +807,769 @@
                 <div class="calendar-view">
                     <div class="calendar-header">
                         <h3>June 2025</h3>
-                        <button class="btn" style="width: auto; padding: 10px 20px;">Add Event</button>
+                        <button class="btn btn-small" onclick="showEventModal()">Add Event</button>
                     </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-day">S</div>
-                        <div class="calendar-day">M</div>
-                        <div class="calendar-day">T</div>
-                        <div class="calendar-day">W</div>
-                        <div class="calendar-day">T</div>
-                        <div class="calendar-day">F</div>
-                        <div class="calendar-day">S</div>
-                        <div class="calendar-day">1</div>
-                        <div class="calendar-day">2</div>
-                        <div class="calendar-day">3</div>
-                        <div class="calendar-day">4</div>
-                        <div class="calendar-day has-event">5</div>
-                        <div class="calendar-day">6</div>
-                        <div class="calendar-day">7</div>
-                        <div class="calendar-day">8</div>
-                        <div class="calendar-day">9</div>
-                        <div class="calendar-day">10</div>
-                        <div class="calendar-day">11</div>
-                        <div class="calendar-day has-event">12</div>
-                        <div class="calendar-day">13</div>
-                        <div class="calendar-day">14</div>
-                        <div class="calendar-day has-event">15</div>
-                        <div class="calendar-day">16</div>
-                        <div class="calendar-day">17</div>
-                        <div class="calendar-day">18</div>
-                        <div class="calendar-day has-event">19</div>
-                        <div class="calendar-day">20</div>
-                        <div class="calendar-day">21</div>
-                        <div class="calendar-day">22</div>
-                        <div class="calendar-day">23</div>
-                        <div class="calendar-day">24</div>
-                        <div class="calendar-day has-event">25</div>
-                        <div class="calendar-day">26</div>
-                        <div class="calendar-day">27</div>
-                        <div class="calendar-day">28</div>
-                        <div class="calendar-day">29</div>
-                        <div class="calendar-day">30</div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="event-list">
+                    <h3>Upcoming Events</h3>
+                    <div id="eventsList"></div>
+                </div>
+            </div>
+            
+            <!-- Tasks Screen -->
+            <div id="tasks" class="screen">
+                <h3>🗂️ Shared Plot Tasks</h3>
+                <button class="btn btn-small" onclick="showTaskModal()" style="margin-bottom: 20px;">Add New Task</button>
+                
+                <div id="tasksList"></div>
+                
+                <h3 style="margin-top: 30px;">📦 Resource Sharing</h3>
+                
+                <button class="btn btn-small" onclick="showResourceModal()" style="margin-bottom: 20px;">Share Resource</button>
+                
+                <div id="resourcesList"></div>
+            </div>
+            
+            <!-- Journal Screen -->
+            <div id="journal" class="screen">
+                <h3>Your Bloom Journal 📖</h3>
+                <button class="btn btn-small" onclick="showAddModal()" style="margin-bottom: 20px;">Add Entry</button>
+                
+                <div id="journalEntries"></div>
+            </div>
+            
+            <!-- Profile Screen -->
+            <div id="profile" class="screen">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👩‍🌾</div>
+                        <div class="profile-info">
+                            <h3 id="profileName">Sarah Thompson</h3>
+                            <div class="profile-location">📍 <span id="profileLocation">Brighton, East Sussex</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="profileNameInput" value="Sarah Thompson" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="profileLocationInput" value="Brighton, East Sussex" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea id="profileBio" rows="3">I grow cosmos for my mum's wedding bouquets. Love rainwater harvesting! Been growing chemical-free for 3 years now.</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Growing Experience</label>
+                        <select id="profileExperience">
+                            <option>Beginner (< 1 year)</option>
+                            <option>Intermediate (1-3 years)</option>
+                            <option selected>Experienced (3-5 years)</option>
+                            <option>Expert (5+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" onclick="saveProfile()">Save Profile</button>
+                </div>
+                
+                <div class="eco-badge" style="margin-top: 20px;">
+                    🏆 Achievements: <span id="achievements">Soil Hero • Pollinator Champion</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-button" onclick="showAddModal()">+</div>
+        
+        <!-- Journal Entry Modal -->
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <h2>Add New Entry</h2>
+                <div class="form-group">
+                    <label>What happened today?</label>
+                    <textarea id="journalText" rows="4" placeholder="First bloom, harvest, planting..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Flower Type</label>
+                    <select id="flowerType">
+                        <option>Cornflower</option>
+                        <option>Sweet Pea</option>
+                        <option>Zinnia</option>
+                        <option>Cosmos</option>
+                        <option>Dahlia</option>
+                        <option>Sunflower</option>
+                        <option>Foxglove</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Any treatments used?</label>
+                    <input type="text" id="treatmentInput" placeholder="Compost, neem oil, water..." />
+                </div>
+                <button class="btn" onclick="saveEntry()">Save Entry</button>
+            </div>
+        </div>
+        
+        <!-- Event Modal -->
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeEventModal()">&times;</span>
+                <h2>Add Calendar Event</h2>
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" id="eventTitle" placeholder="e.g., Plant sweet peas" />
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="eventDate" />
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="eventType">
+                        <option>🟢 Planting</option>
+                        <option>🔵 Watering</option>
+                        <option>🟡 Weeding</option>
+                        <option>🟣 Harvesting</option>
+                        <option>🌱 Workshop</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="saveEvent()">Save Event</button>
+            </div>
+        </div>
+        
+        <!-- Task Modal -->
+        <div id="taskModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeTaskModal()">&times;</span>
+                <h2>Add New Task</h2>
+                <div class="form-group">
+                    <label>Task Description</label>
+                    <input type="text" id="taskDescription" placeholder="e.g., Water dahlia beds" />
+                </div>
+                <div class="form-group">
+                    <label>Assigned To</label>
+                    <input type="text" id="taskAssignee" placeholder="e.g., John" />
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="taskDue" />
+                </div>
+                <button class="btn" onclick="saveTask()">Save Task</button>
+            </div>
+        </div>
+        
+        <!-- Resource Modal -->
+        <div id="resourceModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeResourceModal()">&times;</span>
+                <h2>Share Resource</h2>
+                <div class="form-group">
+                    <label>Resource Type</label>
+                    <select id="resourceType">
+                        <option>🎍 Available</option>
+                        <option>🌱 Needed</option>
+                        <option>💧 Reminder</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Resource Description</label>
+                    <input type="text" id="resourceTitle" placeholder="e.g., 50 bamboo stakes" />
+                </div>
+                <div class="form-group">
+                    <label>Details</label>
+                    <textarea id="resourceDetails" rows="2" placeholder="Additional information..."></textarea>
+                </div>
+                <button class="btn" onclick="saveResource()">Share Resource</button>
+            </div>
+        </div>
+        
+        <!-- Photo Upload Modal -->
+        <div id="photoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closePhotoModal()">&times;</span>
+                <h2>🤖 AI Flower Identifier</h2>
+                <div class="photo-upload-area" id="photoUploadArea">
+                    <div class="photo-upload-icon">📸</div>
+                    <p>Click to take photo or upload</p>
+                </div>
+                <div class="ai-result" style="display: none;" id="aiResult">
+                    <h3>Identified: <span id="flowerName">Sweet William</span></h3>
+                    <p id="flowerDesc">Dianthus barbatus - A cottage garden favourite!</p>
+                    <button class="btn" style="background: white; color: var(--primary);" onclick="addToGuide()">Add to Flower Guide</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALL JAVASCRIPT AT THE END -->
+    <script>
+        // Initialize app data
+        let appData = {
+            profile: {
+                name: 'Sarah Thompson',
+                location: 'Brighton, East Sussex',
+                bio: 'I grow cosmos for my mum\'s wedding bouquets. Love rainwater harvesting!',
+                experience: 'Experienced (3-5 years)'
+            },
+            stats: {
+                ecoScore: 92,
+                flowersGrown: 127,
+                moneySaved: 458,
+                waterSaved: 340,
+                pollinators: 23
+            },
+            journal: [],
+            events: [],
+            tasks: [],
+            resources: [],
+            customFlowers: []
+        };
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('bloomshareData');
+            if (saved) {
+                appData = JSON.parse(saved);
+                updateUI();
+            }
+            loadJournal();
+            loadEvents();
+            loadTasks();
+            loadResources();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('bloomshareData', JSON.stringify(appData));
+        }
+
+        // Update UI with saved data
+        function updateUI() {
+            // Update profile
+            document.getElementById('userName').textContent = appData.profile.name.split(' ')[0];
+            document.getElementById('profileName').textContent = appData.profile.name;
+            document.getElementById('profileLocation').textContent = appData.profile.location;
+            document.getElementById('profileNameInput').value = appData.profile.name;
+            document.getElementById('profileLocationInput').value = appData.profile.location;
+            document.getElementById('profileBio').value = appData.profile.bio;
+            document.getElementById('profileExperience').value = appData.profile.experience;
+            
+            // Update stats
+            document.getElementById('ecoScore').textContent = appData.stats.ecoScore + '/100';
+            document.getElementById('flowersGrown').textContent = appData.stats.flowersGrown;
+            document.getElementById('moneySaved').textContent = appData.stats.moneySaved;
+            document.getElementById('waterSaved').textContent = appData.stats.waterSaved;
+            document.getElementById('pollinators').textContent = appData.stats.pollinators;
+        }
+
+        // Screen navigation
+        function showScreen(screenId, element) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            if (element) {
+                element.classList.add('active');
+            }
+            
+            // Generate calendar if showing calendar screen
+            if (screenId === 'calendar') {
+                generateCalendar();
+            }
+        }
+        
+        // Toggle flower details
+        function toggleFlowerDetail(flowerId) {
+            const detail = document.getElementById(flowerId + '-detail');
+            if (detail) {
+                detail.classList.toggle('show');
+            }
+        }
+        
+        // WhatsApp sharing
+        function shareToWhatsApp() {
+            const message = `Check out my BloomShare progress! 🌷\n\nFlowers grown: ${appData.stats.flowersGrown}\nMoney saved: £${appData.stats.moneySaved}\nEco Score: ${appData.stats.ecoScore}/100\n\nGrowing chemical-free together!`;
+            const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        
+        // Modal functions
+        function showAddModal() {
+            document.getElementById('addModal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('addModal').classList.remove('show');
+        }
+        
+        function showEventModal() {
+            document.getElementById('eventModal').classList.add('show');
+        }
+        
+        function closeEventModal() {
+            document.getElementById('eventModal').classList.remove('show');
+        }
+        
+        function showTaskModal() {
+            document.getElementById('taskModal').classList.add('show');
+        }
+        
+        function closeTaskModal() {
+            document.getElementById('taskModal').classList.remove('show');
+        }
+        
+        function showResourceModal() {
+            document.getElementById('resourceModal').classList.add('show');
+        }
+        
+        function closeResourceModal() {
+            document.getElementById('resourceModal').classList.remove('show');
+        }
+        
+        function showPhotoUpload() {
+            document.getElementById('photoModal').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('aiResult').style.display = 'block';
+                // Simulate random flower identification
+                const flowers = ['Sweet William', 'Delphinium', 'Hollyhock', 'Nigella', 'Rudbeckia'];
+                const randomFlower = flowers[Math.floor(Math.random() * flowers.length)];
+                document.getElementById('flowerName').textContent = randomFlower;
+                document.getElementById('flowerDesc').textContent = 'A beautiful addition to your cutting garden!';
+            }, 2000);
+        }
+        
+        function closePhotoModal() {
+            document.getElementById('photoModal').classList.remove('show');
+            document.getElementById('aiResult').style.display = 'none';
+        }
+        
+        // Save journal entry
+        function saveEntry() {
+            const text = document.getElementById('journalText').value;
+            const flower = document.getElementById('flowerType').value;
+            const treatment = document.getElementById('treatmentInput').value;
+            
+            if (!text) {
+                alert('Please enter what happened today!');
+                return;
+            }
+            
+            const entry = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('en-GB'),
+                text: text,
+                flower: flower,
+                treatment: treatment,
+                badge: null
+            };
+            
+            // Check for eco-friendly practices
+            const chemicals = ['pesticide', 'herbicide', 'fungicide', 'roundup', 'glyphosate', 'chemical', 'spray'];
+            const hasChemicals = chemicals.some(chem => 
+                text.toLowerCase().includes(chem) || treatment.toLowerCase().includes(chem)
+            );
+            
+            if (hasChemicals) {
+                entry.badge = 'warning';
+                appData.stats.ecoScore = Math.max(0, appData.stats.ecoScore - 5);
+                alert('🌿 Gentle reminder: Have you tried natural alternatives? Neem oil or companion planting work brilliantly!');
+            } else if (treatment.toLowerCase().includes('compost') || treatment.toLowerCase().includes('rainwater')) {
+                entry.badge = 'success';
+                appData.stats.ecoScore = Math.min(100, appData.stats.ecoScore + 2);
+                alert('🏆 Brilliant! You earned eco points for sustainable practices!');
+            }
+            
+            // Update stats
+            appData.stats.flowersGrown++;
+            appData.stats.moneySaved += 5;
+            
+            appData.journal.unshift(entry);
+            saveData();
+            loadJournal();
+            updateUI();
+            closeModal();
+            
+            // Clear form
+            document.getElementById('journalText').value = '';
+            document.getElementById('treatmentInput').value = '';
+        }
+        
+        // Load journal entries
+        function loadJournal() {
+            const container = document.getElementById('journalEntries');
+            if (!container) return;
+            
+            if (appData.journal.length === 0) {
+                container.innerHTML = '<div class="empty-state">No journal entries yet. Start documenting your garden journey!</div>';
+                return;
+            }
+            
+            container.innerHTML = appData.journal.map(entry => `
+                <div class="journal-entry">
+                    <button class="delete-btn" onclick="deleteJournalEntry(${entry.id})">×</button>
+                    <div class="journal-date">${entry.date}</div>
+                    <div class="journal-content">
+                        <strong>${entry.flower}:</strong> ${entry.text}
+                        ${entry.treatment ? `<br><em>Treatment: ${entry.treatment}</em>` : ''}
+                    </div>
+                    ${entry.badge === 'success' ? '<div class="eco-badge">🏆 Eco-friendly practice!</div>' : ''}
+                    ${entry.badge === 'warning' ? '<div class="eco-nudge">💡 Consider natural alternatives!</div>' : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Delete journal entry
+        function deleteJournalEntry(id) {
+            if (confirm('Delete this entry?')) {
+                appData.journal = appData.journal.filter(e => e.id !== id);
+                saveData();
+                loadJournal();
+            }
+        }
+        
+        // Save calendar event
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const type = document.getElementById('eventType').value;
+            
+            if (!title || !date) {
+                alert('Please fill in all fields!');
+                return;
+            }
+            
+            const event = {
+                id: Date.now(),
+                title: title,
+                date: date,
+                type: type
+            };
+            
+            appData.events.push(event);
+            saveData();
+            loadEvents();
+            generateCalendar();
+            closeEventModal();
+            
+            // Clear form
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+        }
+        
+        // Load events
+        function loadEvents() {
+            const container = document.getElementById('eventsList');
+            if (!container) return;
+            
+            const sortedEvents = appData.events.sort((a, b) => new Date(a.date) - new Date(b.date));
+            const futureEvents = sortedEvents.filter(e => new Date(e.date) >= new Date());
+            
+            if (futureEvents.length === 0) {
+                container.innerHTML = '<div class="empty-state">No upcoming events. Add one to plan your garden activities!</div>';
+                return;
+            }
+            
+            container.innerHTML = futureEvents.slice(0, 5).map(event => `
+                <div class="journal-entry">
+                    <button class="delete-btn" onclick="deleteEvent(${event.id})">×</button>
+                    <div class="journal-date">${new Date(event.date).toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                    <div class="journal-content">${event.type} ${event.title}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Delete event
+        function deleteEvent(id) {
+            if (confirm('Delete this event?')) {
+                appData.events = appData.events.filter(e => e.id !== id);
+                saveData();
+                loadEvents();
+                generateCalendar();
+            }
+        }
+        
+        // Generate calendar
+        function generateCalendar() {
+            const container = document.getElementById('calendarGrid');
+            if (!container) return;
+            
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            let html = '';
+            
+            // Day headers
+            const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            days.forEach(day => {
+                html += `<div class="calendar-day">${day}</div>`;
+            });
+            
+            // Empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div class="calendar-day"></div>`;
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasEvent = appData.events.some(e => e.date === date);
+                html += `<div class="calendar-day ${hasEvent ? 'has-event' : ''}" onclick="viewDate('${date}')">${day}</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // View date details
+        function viewDate(date) {
+            const events = appData.events.filter(e => e.date === date);
+            if (events.length > 0) {
+                alert(`Events on ${date}:\n\n${events.map(e => `${e.type} ${e.title}`).join('\n')}`);
+            } else {
+                if (confirm(`No events on ${date}. Would you like to add one?`)) {
+                    document.getElementById('eventDate').value = date;
+                    showEventModal();
+                }
+            }
+        }
+        
+        // Save task
+        function saveTask() {
+            const description = document.getElementById('taskDescription').value;
+            const assignee = document.getElementById('taskAssignee').value;
+            const due = document.getElementById('taskDue').value;
+            
+            if (!description) {
+                alert('Please enter a task description!');
+                return;
+            }
+            
+            const task = {
+                id: Date.now(),
+                description: description,
+                assignee: assignee || 'Anyone',
+                due: due,
+                status: 'pending'
+            };
+            
+            appData.tasks.push(task);
+            saveData();
+            loadTasks();
+            closeTaskModal();
+            
+            // Clear form
+            document.getElementById('taskDescription').value = '';
+            document.getElementById('taskAssignee').value = '';
+            document.getElementById('taskDue').value = '';
+        }
+        
+        // Load tasks
+        function loadTasks() {
+            const container = document.getElementById('tasksList');
+            if (!container) return;
+            
+            if (appData.tasks.length === 0) {
+                container.innerHTML = '<div class="empty-state">No tasks yet. Add tasks to coordinate your garden work!</div>';
+                return;
+            }
+            
+            container.innerHTML = appData.tasks.map(task => `
+                <div class="task-item">
+                    <div class="task-info">
+                        <h4>${task.description}</h4>
+                        <div class="task-assignee">
+                            ${task.status === 'complete' ? 'Completed by' : 'Assigned to'}: ${task.assignee}
+                            ${task.due ? ` - Due: ${new Date(task.due).toLocaleDateString('en-GB')}` : ''}
+                        </div>
+                    </div>
+                    <div class="task-status ${task.status}" onclick="toggleTask(${task.id})">
+                        ${task.status === 'complete' ? '✅ Done' : 'Pending'}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Toggle task status
+        function toggleTask(id) {
+            const task = appData.tasks.find(t => t.id === id);
+            if (task) {
+                task.status = task.status === 'pending' ? 'complete' : 'pending';
+                if (task.status === 'complete') {
+                    appData.stats.ecoScore = Math.min(100, appData.stats.ecoScore + 1);
+                    alert('Task completed! Great teamwork! 🌟');
+                }
+                saveData();
+                loadTasks();
+                updateUI();
+            }
+        }
+        
+        // Save resource
+        function saveResource() {
+            const type = document.getElementById('resourceType').value;
+            const title = document.getElementById('resourceTitle').value;
+            const details = document.getElementById('resourceDetails').value;
+            
+            if (!title) {
+                alert('Please enter a resource description!');
+                return;
+            }
+            
+            const resource = {
+                id: Date.now(),
+                type: type,
+                title: title,
+                details: details
+            };
+            
+            appData.resources.push(resource);
+            saveData();
+            loadResources();
+            closeResourceModal();
+            
+            // Clear form
+            document.getElementById('resourceTitle').value = '';
+            document.getElementById('resourceDetails').value = '';
+        }
+        
+        // Load resources
+        function loadResources() {
+            const container = document.getElementById('resourcesList');
+            if (!container) return;
+            
+            if (appData.resources.length === 0) {
+                container.innerHTML = '<div class="empty-state">No resources shared yet. Share what you have or need!</div>';
+                return;
+            }
+            
+            container.innerHTML = appData.resources.map(resource => `
+                <div class="resource-share">
+                    <button class="delete-btn" onclick="deleteResource(${resource.id})">×</button>
+                    <h4>${resource.type} ${resource.title}</h4>
+                    <p>${resource.details}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Delete resource
+        function deleteResource(id) {
+            if (confirm('Remove this resource?')) {
+                appData.resources = appData.resources.filter(r => r.id !== id);
+                saveData();
+                loadResources();
+            }
+        }
+        
+        // Save profile
+        function saveProfile() {
+            appData.profile.name = document.getElementById('profileNameInput').value;
+            appData.profile.location = document.getElementById('profileLocationInput').value;
+            appData.profile.bio = document.getElementById('profileBio').value;
+            appData.profile.experience = document.getElementById('profileExperience').value;
+            
+            saveData();
+            updateUI();
+            alert('Profile saved successfully!');
+        }
+        
+        // Add custom flower to guide
+        function addToGuide() {
+            const flowerName = document.getElementById('flowerName').textContent;
+            const flowerDesc = document.getElementById('flowerDesc').textContent;
+            
+            const customFlower = {
+                id: Date.now(),
+                name: flowerName,
+                description: flowerDesc,
+                emoji: '🌺'
+            };
+            
+            appData.customFlowers.push(customFlower);
+            saveData();
+            loadCustomFlowers();
+            closePhotoModal();
+            alert(`${flowerName} added to your flower guide!`);
+        }
+        
+        // Load custom flowers
+        function loadCustomFlowers() {
+            const container = document.getElementById('customFlowers');
+            if (!container) return;
+            
+            container.innerHTML = appData.customFlowers.map(flower => `
+                <div class="flower-card">
+                    <h3><span class="flower-emoji">${flower.emoji}</span> ${flower.name}</h3>
+                    <p>${flower.description}</p>
+                    <button class="delete-btn" onclick="deleteCustomFlower(${flower.id})">×</button>
+                </div>
+            `).join('');
+        }
+        
+        // Delete custom flower
+        function deleteCustomFlower(id) {
+            if (confirm('Remove this flower from your guide?')) {
+                appData.customFlowers = appData.customFlowers.filter(f => f.id !== id);
+                saveData();
+                loadCustomFlowers();
+            }
+        }
+        
+        // Add journal entry helper
+        function addJournalEntry() {
+            const journalNav = document.querySelector('.nav-item:nth-child(4)');
+            showScreen('journal', journalNav);
+            showAddModal();
+        }
+        
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+        }
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            loadCustomFlowers();
+            updateTime();
+            setInterval(updateTime, 60000);
+            
+            // Pollinator map interaction
+            document.querySelectorAll('.map-cell').forEach(cell => {
+                cell.addEventListener('click', function() {
+                    if (this.textContent === '-') {
+                        const flowers = ['🌻', '🌼', '🌸', '🌺', '🌷'];
+                        this.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                        this.classList.add('pollinator');
+                        appData.stats.pollinators++;
+                        saveData();
+                        updateUI();
+                        alert('🐝 Great choice! This spot is now marked for pollinator-friendly plants.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
