@@ -362,6 +362,11 @@
             font-weight: bold;
         }
 
+        .calendar-day.today {
+            border: 2px solid var(--accent);
+            font-weight: bold;
+        }
+
         .journal-entry {
             background: white;
             border-radius: 15px;
@@ -800,13 +805,187 @@
                         <button class="share-button">Share Growing Tips</button>
                     </div>
                 </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('dahlia')">
+                    <h3><span class="flower-emoji">🌺</span> Dahlias</h3>
+                    <p>Show-stopping blooms from summer to frost</p>
+                    <div id="dahlia-detail" class="flower-detail">
+                        <p><strong>🌱 When to Plant:</strong> Plant tubers April-May after frost</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, rich well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when fully open in morning</p>
+                        <p><strong>💐 Vase Life:</strong> 4–6 days, remove lower leaves</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Lift tubers in autumn, store for next year</p>
+                        <p><strong>🐞 Pest Control:</strong> Attract ladybirds with nearby fennel</p>
+                        <div class="eco-badge">
+                            ♻️ Perennial investment - Tubers multiply yearly
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('cosmos')">
+                    <h3><span class="flower-emoji">🌼</span> Cosmos</h3>
+                    <p>Easy-care flowers that bloom all summer</p>
+                    <div id="cosmos-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> April-May indoors, or direct sow May</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, poor to average soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when petals just open</p>
+                        <p><strong>💐 Vase Life:</strong> 5–7 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Thrives in poor soil - no feeding needed!</p>
+                        <p><strong>🌱 Seed Saving:</strong> Let dry on plant, store in paper bags</p>
+                        <div class="eco-badge">
+                            ♻️ Self-sowing champion - Zero maintenance
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('sunflower')">
+                    <h3><span class="flower-emoji">🌻</span> Sunflowers</h3>
+                    <p>Giants that feed birds and brighten borders</p>
+                    <div id="sunflower-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> April-May direct in ground</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, any well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when petals start to open</p>
+                        <p><strong>💐 Vase Life:</strong> 6–12 days in clean water</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Leave heads for birds in winter</p>
+                        <p><strong>🐝 Wildlife Value:</strong> Feeds bees, then finches love the seeds</p>
+                        <div class="eco-badge">
+                            ♻️ Wildlife superstar - Feeds pollinators & birds
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('zinnia')">
+                    <h3><span class="flower-emoji">🌺</span> Zinnias</h3>
+                    <p>Vibrant summer blooms that love the heat</p>
+                    <div id="zinnia-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> Start indoors April, plant out May</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when fully open</p>
+                        <p><strong>💐 Vase Life:</strong> 7–12 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Deadhead for continuous blooms</p>
+                        <p><strong>🦋 Wildlife:</strong> Butterfly magnet - especially monarchs!</p>
+                        <div class="eco-badge">
+                            ♻️ Pollinator paradise - Zero pesticides needed
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('delphinium')">
+                    <h3><span class="flower-emoji">💜</span> Delphiniums</h3>
+                    <p>Majestic spires of blue, pink or white</p>
+                    <div id="delphinium-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> February-March under glass</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, rich moist soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when bottom florets open</p>
+                        <p><strong>💐 Vase Life:</strong> 7–10 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Cut back for second flush</p>
+                        <p><strong>🐌 Natural Protection:</strong> Coffee grounds deter slugs</p>
+                        <div class="eco-badge">
+                            ♻️ Perennial beauty - Returns yearly
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('nigella')">
+                    <h3><span class="flower-emoji">💙</span> Nigella (Love-in-a-Mist)</h3>
+                    <p>Delicate flowers with ornamental seed pods</p>
+                    <div id="nigella-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> Direct sow March-May or September</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, any soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut flowers or wait for seed pods</p>
+                        <p><strong>💐 Vase Life:</strong> 7 days flowers, pods last weeks</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Self-seeds freely - no replanting!</p>
+                        <p><strong>🎨 Bonus:</strong> Dried seed pods perfect for arrangements</p>
+                        <div class="eco-badge">
+                            ♻️ Two-for-one - Flowers AND seed pods
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('rudbeckia')">
+                    <h3><span class="flower-emoji">🌻</span> Rudbeckia (Black-Eyed Susan)</h3>
+                    <p>Golden daisies that bloom until frost</p>
+                    <div id="rudbeckia-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> February-April indoors</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun to partial shade</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when petals unfold</p>
+                        <p><strong>💐 Vase Life:</strong> 10+ days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Leave seed heads for goldfinches</p>
+                        <p><strong>💪 Tough:</strong> Drought tolerant once established</p>
+                        <div class="eco-badge">
+                            ♻️ Long-lasting perennial - Minimal care
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('scabious')">
+                    <h3><span class="flower-emoji">💜</span> Scabious (Pincushion Flower)</h3>
+                    <p>Cottage garden favourite loved by bees</p>
+                    <div id="scabious-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> March-May or September</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, well-drained soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when fully open</p>
+                        <p><strong>💐 Vase Life:</strong> 5–7 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Deadhead for months of flowers</p>
+                        <p><strong>🦋 Wildlife:</strong> Top nectar source for butterflies</p>
+                        <div class="eco-badge">
+                            ♻️ Butterfly buffet - High nectar content
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('larkspur')">
+                    <h3><span class="flower-emoji">💙</span> Larkspur</h3>
+                    <p>Elegant spikes in jewel tones</p>
+                    <div id="larkspur-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> September or March direct</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, rich soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when 2-3 florets open</p>
+                        <p><strong>💐 Vase Life:</strong> 7–10 days fresh, excellent dried</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Autumn sowing = earlier blooms</p>
+                        <p><strong>🥶 Hardy:</strong> Survives UK winters when autumn sown</p>
+                        <div class="eco-badge">
+                            ♻️ Dries beautifully - Everlasting flowers
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
+
+                <div class="flower-card" onclick="toggleFlowerDetail('marigold')">
+                    <h3><span class="flower-emoji">🏵️</span> Marigolds (Tagetes)</h3>
+                    <p>Pest-deterrent powerhouse in orange & yellow</p>
+                    <div id="marigold-detail" class="flower-detail">
+                        <p><strong>🌱 When to Sow:</strong> March-April indoors</p>
+                        <p><strong>💧 Where to Plant:</strong> Full sun, any soil</p>
+                        <p><strong>✂️ When to Harvest:</strong> Cut when just opening</p>
+                        <p><strong>💐 Vase Life:</strong> 5–10 days</p>
+                        <p><strong>🌿 Permaculture Tip:</strong> Plant near tomatoes - deters aphids!</p>
+                        <p><strong>🐛 Natural Pesticide:</strong> Roots release pest-deterrent chemicals</p>
+                        <div class="eco-badge">
+                            ♻️ Garden guardian - Natural pest control
+                        </div>
+                        <button class="share-button">Share Growing Tips</button>
+                    </div>
+                </div>
             </div>
             
             <!-- Calendar Screen -->
             <div id="calendar" class="screen">
                 <div class="calendar-view">
                     <div class="calendar-header">
-                        <h3>June 2025</h3>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button class="btn btn-small" onclick="changeMonth(-1)">◀</button>
+                            <h3 id="calendarMonthYear">June 2025</h3>
+                            <button class="btn btn-small" onclick="changeMonth(1)">▶</button>
+                        </div>
                         <button class="btn btn-small" onclick="showEventModal()">Add Event</button>
                     </div>
                     <div class="calendar-grid" id="calendarGrid">
@@ -901,13 +1080,36 @@
                 <div class="form-group">
                     <label>Flower Type</label>
                     <select id="flowerType">
+                        <option>Anemone</option>
+                        <option>Aster</option>
+                        <option>Carnation</option>
+                        <option>Celosia</option>
+                        <option>Chrysanthemum</option>
                         <option>Cornflower</option>
-                        <option>Sweet Pea</option>
-                        <option>Zinnia</option>
                         <option>Cosmos</option>
                         <option>Dahlia</option>
-                        <option>Sunflower</option>
+                        <option>Delphinium</option>
                         <option>Foxglove</option>
+                        <option>Gladiolus</option>
+                        <option>Larkspur</option>
+                        <option>Lavender</option>
+                        <option>Lisianthus</option>
+                        <option>Marigold</option>
+                        <option>Nigella</option>
+                        <option>Peony</option>
+                        <option>Poppy</option>
+                        <option>Ranunculus</option>
+                        <option>Rose</option>
+                        <option>Rudbeckia</option>
+                        <option>Scabious</option>
+                        <option>Snapdragon</option>
+                        <option>Stock</option>
+                        <option>Sunflower</option>
+                        <option>Sweet Pea</option>
+                        <option>Sweet William</option>
+                        <option>Tulip</option>
+                        <option>Zinnia</option>
+                        <option>Other</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1030,8 +1232,13 @@
             events: [],
             tasks: [],
             resources: [],
-            customFlowers: []
+            customFlowers: [],
+            appStartDate: new Date().toISOString() // Track when app was first used
         };
+
+        // Calendar navigation state
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
 
         // Load data from localStorage
         function loadData() {
@@ -1310,11 +1517,15 @@
             const container = document.getElementById('calendarGrid');
             if (!container) return;
             
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth();
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            // Update month/year display
+            document.getElementById('calendarMonthYear').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             
             let html = '';
             
@@ -1331,12 +1542,47 @@
             
             // Days of the month
             for (let day = 1; day <= daysInMonth; day++) {
-                const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const date = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const hasEvent = appData.events.some(e => e.date === date);
-                html += `<div class="calendar-day ${hasEvent ? 'has-event' : ''}" onclick="viewDate('${date}')">${day}</div>`;
+                const isToday = new Date().toDateString() === new Date(currentYear, currentMonth, day).toDateString();
+                html += `<div class="calendar-day ${hasEvent ? 'has-event' : ''} ${isToday ? 'today' : ''}" onclick="viewDate('${date}')">${day}</div>`;
             }
             
             container.innerHTML = html;
+        }
+        
+        // Change month navigation
+        function changeMonth(direction) {
+            currentMonth += direction;
+            
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            
+            // Limit to 5 years in future
+            const maxYear = new Date().getFullYear() + 5;
+            if (currentYear > maxYear) {
+                currentYear = maxYear;
+                currentMonth = 11;
+            }
+            
+            // Limit to app start date in past
+            if (appData.appStartDate) {
+                const startDate = new Date(appData.appStartDate);
+                const minYear = startDate.getFullYear();
+                const minMonth = startDate.getMonth();
+                
+                if (currentYear < minYear || (currentYear === minYear && currentMonth < minMonth)) {
+                    currentYear = minYear;
+                    currentMonth = minMonth;
+                }
+            }
+            
+            generateCalendar();
         }
         
         // View date details
